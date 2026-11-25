@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin — Ecopontos Marabá</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/style.css" rel="stylesheet">
+    <style>
+        body { background: #f0f4f0; }
+        .admin-nav { background: #1a5c30; }
+        .table th { font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; }
+        .badge-type { font-size: .7rem; }
+        .ecoponto-row:hover { background: #f8fff8; cursor: pointer; }
+        .chip-toggle { cursor: pointer; user-select: none; }
+        .chip-toggle input[type=checkbox] { display: none; }
+        .chip-toggle .chip-label {
+            display: inline-block;
+            padding: .2rem .6rem;
+            border-radius: 999px;
+            font-size: .75rem;
+            font-weight: 600;
+            border: 2px solid;
+            opacity: .45;
+            transition: opacity .15s;
+        }
+        .chip-toggle input:checked + .chip-label { opacity: 1; }
+        #loginCard { max-width: 420px; margin: 10vh auto; }
+    </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════
+     TELA DE LOGIN
+══════════════════════════════════════════════════ -->
+<div id="loginScreen">
+    <div id="loginCard" class="card shadow-lg border-0">
+        <div class="card-body p-5 text-center">
+            <div class="mb-4">
+                <span class="display-4 text-success"><i class="fas fa-recycle"></i></span>
+                <h4 class="mt-2 fw-bold text-success">Ecopontos Marabá</h4>
+                <p class="text-muted small">Painel de Administração</p>
+            </div>
+            <div id="loginError" class="alert alert-danger d-none py-2" role="alert">
+                <i class="fas fa-exclamation-triangle me-1"></i> Senha incorreta!
+            </div>
+            <div class="mb-3 text-start">
+                <label class="form-label fw-semibold">Senha de acesso</label>
+                <div class="input-group">
+                    <input type="password" class="form-control" id="loginPassword"
+                           placeholder="••••••••" autocomplete="current-password">
+                    <button class="btn btn-outline-secondary" type="button" id="togglePwd">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+            <button class="btn btn-success w-100 fw-bold" id="loginBtn">
+                <i class="fas fa-sign-in-alt me-2"></i>Entrar
+            </button>
+            <hr class="my-4">
+            <a href="index.html" class="btn btn-outline-secondary btn-sm w-100">
+                <i class="fas fa-arrow-left me-1"></i>Voltar ao mapa público
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     PAINEL ADMIN
+══════════════════════════════════════════════════ -->
+<div id="adminPanel" class="d-none">
+
+    <!-- Navbar Admin -->
+    <nav class="navbar navbar-expand-lg navbar-dark admin-nav px-3 py-2">
+        <a class="navbar-brand fw-bold" href="#">
+            <i class="fas fa-cog me-2"></i>Admin — Ecopontos Marabá
+        </a>
+        <div class="ms-auto d-flex gap-2">
+            <a href="index.html" class="btn btn-outline-light btn-sm">
+                <i class="fas fa-map me-1"></i>Ver mapa
+            </a>
+            <button class="btn btn-outline-warning btn-sm" id="logoutBtn">
+                <i class="fas fa-sign-out-alt me-1"></i>Sair
+            </button>
+        </div>
+    </nav>
+
+    <div class="container-fluid py-4 px-4">
+
+        <!-- Resumo rápido -->
+        <div class="row g-3 mb-4">
+            <div class="col-sm-6 col-lg-3">
+                <div class="card border-0 shadow-sm text-center">
+                    <div class="card-body">
+                        <div class="text-success fs-2 fw-bold" id="adm-total">0</div>
+                        <div class="text-muted small">Total de Ecopontos</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="card border-0 shadow-sm text-center">
+                    <div class="card-body">
+                        <div class="text-primary fs-2 fw-bold" id="adm-active">0</div>
+                        <div class="text-muted small">Ativos</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="card border-0 shadow-sm text-center">
+                    <div class="card-body">
+                        <div class="text-warning fs-2 fw-bold" id="adm-inactive">0</div>
+                        <div class="text-muted small">Inativos</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-lg-3">
+                <div class="card border-0 shadow-sm text-center">
+                    <div class="card-body">
+                        <div class="text-info fs-2 fw-bold" id="adm-bairros">0</div>
+                        <div class="text-muted small">Bairros cobertos</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toolbar -->
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+            <h5 class="fw-bold mb-0"><i class="fas fa-map-pin me-2 text-success"></i>Ecopontos cadastrados</h5>
+            <div class="d-flex gap-2">
+                <button class="btn btn-outline-secondary btn-sm" id="exportBtn">
+                    <i class="fas fa-download me-1"></i>Exportar GeoJSON
+                </button>
+                <button class="btn btn-success btn-sm fw-bold" id="newEcoBtn">
+                    <i class="fas fa-plus me-1"></i>Novo Ecoponto
+                </button>
+            </div>
+        </div>
+
+        <!-- Tabela -->
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Nome</th>
+                                <th class="d-none d-md-table-cell">Bairro</th>
+                                <th class="d-none d-lg-table-cell">Horário</th>
+                                <th>Resíduos</th>
+                                <th>Status</th>
+                                <th class="text-end">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ecoTable">
+                            <tr>
+                                <td colspan="6" class="text-center py-5 text-muted">
+                                    <i class="fas fa-spinner fa-spin fa-2x mb-3 d-block"></i>
+                                    Carregando...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <p class="text-muted small mt-2">
+            <i class="fas fa-info-circle me-1"></i>
+            Os dados são salvos localmente (localStorage). Para publicar no servidor, clique em "Exportar GeoJSON" e substitua o arquivo <code>js/data-ecopontos.json</code> no seu repositório.
+        </p>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     MODAL — Adicionar / Editar Ecoponto
+══════════════════════════════════════════════════ -->
+<div class="modal fade" id="ecoModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title fw-bold" id="modalTitle">
+                    <i class="fas fa-map-pin me-2"></i>Novo Ecoponto
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="ecoForm" novalidate>
+                    <input type="hidden" id="ecoId">
+
+                    <!-- Informações básicas -->
+                    <h6 class="fw-bold text-success mb-3 border-bottom pb-2">
+                        <i class="fas fa-info-circle me-1"></i>Informações Básicas
+                    </h6>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-8">
+                            <label class="form-label fw-semibold">Nome do Ecoponto <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="ecoNome" required
+                                   placeholder="Ex: Ecoponto Folha 31">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label fw-semibold">Status</label>
+                            <select class="form-select" id="ecoStatus">
+                                <option value="ativo">✅ Ativo</option>
+                                <option value="inativo">❌ Inativo</option>
+                                <option value="manutencao">🔧 Em manutenção</option>
+                            </select>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">Endereço completo <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="ecoEndereco" required
+                                   placeholder="Ex: Rua das Flores, 123, Folha 31">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Bairro / Folha <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="ecoBairro" required
+                                   placeholder="Ex: Folha 31, Cidade Nova...">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Horário de Funcionamento</label>
+                            <input type="text" class="form-control" id="ecoHorario"
+                                   placeholder="Ex: Seg–Sex 8h–17h, Sáb 8h–12h">
+                        </div>
+                    </div>
+
+                    <!-- Localização -->
+                    <h6 class="fw-bold text-success mb-3 border-bottom pb-2">
+                        <i class="fas fa-map-marker-alt me-1"></i>Localização (Coordenadas)
+                    </h6>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Latitude <span class="text-danger">*</span></label>
+                            <input type="number" step="any" class="form-control" id="ecoLat" required
+                                   placeholder="-5.3686">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Longitude <span class="text-danger">*</span></label>
+                            <input type="number" step="any" class="form-control" id="ecoLng" required
+                                   placeholder="-49.1178">
+                        </div>
+                        <div class="col-12">
+                            <small class="text-muted">
+                                <i class="fas fa-lightbulb text-warning me-1"></i>
+                                Para obter as coordenadas, clique com o botão direito em qualquer lugar no
+                                <a href="https://maps.google.com" target="_blank">Google Maps</a>
+                                e selecione "Copiar as coordenadas".
+                            </small>
+                        </div>
+                    </div>
+
+                    <!-- Contato -->
+                    <h6 class="fw-bold text-success mb-3 border-bottom pb-2">
+                        <i class="fas fa-phone me-1"></i>Contato
+                    </h6>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">Telefone / WhatsApp</label>
+                            <input type="text" class="form-control" id="ecoTelefone"
+                                   placeholder="(94) 99999-9999">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-semibold">E-mail de contato</label>
+                            <input type="email" class="form-control" id="ecoEmail"
+                                   placeholder="ecoponto@prefeitura.gov.br">
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label fw-semibold">URL da foto do local</label>
+                            <input type="url" class="form-control" id="ecoFoto"
+                                   placeholder="https://... (link de imagem hospedada)">
+                            <small class="text-muted">Use Google Drive, Imgur ou similar. Deixe em branco se não houver foto.</small>
+                        </div>
+                    </div>
+
+                    <!-- Tipos de resíduos -->
+                    <h6 class="fw-bold text-success mb-3 border-bottom pb-2">
+                        <i class="fas fa-recycle me-1"></i>Tipos de Resíduos Aceitos
+                    </h6>
+                    <div class="mb-3" id="tiposResiduos">
+                        <!-- Preenchido pelo admin.js -->
+                    </div>
+
+                    <!-- Observações -->
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">Observações</label>
+                        <textarea class="form-control" id="ecoObs" rows="2"
+                                  placeholder="Informações adicionais, restrições, parceiros..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-success fw-bold" id="saveEcoBtn">
+                    <i class="fas fa-save me-1"></i>Salvar Ecoponto
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de confirmação de exclusão -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content border-danger">
+            <div class="modal-header bg-danger text-white">
+                <h6 class="modal-title fw-bold"><i class="fas fa-trash me-2"></i>Excluir Ecoponto</h6>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center">
+                <p>Deseja realmente excluir <strong id="deleteEcoName"></strong>?</p>
+                <p class="text-muted small">Esta ação não pode ser desfeita.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-danger btn-sm fw-bold" id="confirmDeleteBtn">
+                    <i class="fas fa-trash me-1"></i>Excluir
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/data.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>

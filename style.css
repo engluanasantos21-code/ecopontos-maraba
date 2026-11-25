@@ -1,0 +1,380 @@
+/* ═══════════════════════════════════════════════════════════
+   ECOPONTOS MARABÁ — Folha de Estilo Principal
+   Tema: Verde / Ambiental | Mobile-first
+═══════════════════════════════════════════════════════════ */
+
+/* ── Variáveis ─────────────────────────────────────────── */
+:root {
+  --green-dark:    #1a5c30;
+  --green-main:    #2d7d46;
+  --green-light:   #5cb85c;
+  --green-pale:    #e8f5e9;
+  --amber:         #ffc107;
+  --text-muted:    #6c757d;
+  --navbar-h:      56px;
+  --statsbar-h:    40px;
+  --sidebar-w:     320px;
+  --sidebar-w-sm:  280px;
+  --transition:    .25s ease;
+}
+
+/* ── Reset / Base ──────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  color: #333;
+  overflow: hidden; /* evita scroll da página inteira */
+}
+
+/* ── Navbar ────────────────────────────────────────────── */
+.navbar-green {
+  background: var(--green-dark);
+  height: var(--navbar-h);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1100;
+  box-shadow: 0 2px 8px rgba(0,0,0,.3);
+}
+
+.navbar-brand { letter-spacing: .02em; }
+
+/* ── Barra de Estatísticas ─────────────────────────────── */
+.stats-bar {
+  position: fixed;
+  top: var(--navbar-h);
+  left: 0;
+  right: 0;
+  height: var(--statsbar-h);
+  background: var(--green-main);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0 1rem;
+  z-index: 1050;
+  font-size: .82rem;
+  box-shadow: 0 1px 4px rgba(0,0,0,.2);
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+}
+
+/* ── Layout Principal ──────────────────────────────────── */
+.app-container {
+  position: fixed;
+  top: calc(var(--navbar-h) + var(--statsbar-h));
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+}
+
+/* ── Sidebar ───────────────────────────────────────────── */
+.sidebar {
+  width: var(--sidebar-w);
+  flex-shrink: 0;
+  background: #fff;
+  border-right: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: transform var(--transition), width var(--transition);
+  z-index: 900;
+  box-shadow: 2px 0 8px rgba(0,0,0,.08);
+}
+
+.sidebar-section {
+  padding: .75rem 1rem;
+}
+
+.sidebar-label {
+  font-size: .72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--text-muted);
+  margin-bottom: .5rem;
+}
+
+.sidebar-tip {
+  background: #fffde7;
+  border-top: 1px solid #fff9c4;
+  padding: .6rem 1rem;
+  font-size: .78rem;
+  color: #555;
+}
+
+/* ── Filtros de Resíduo ────────────────────────────────── */
+.filter-chip {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .35rem .6rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background var(--transition);
+  font-size: .82rem;
+  margin-bottom: .2rem;
+  user-select: none;
+}
+
+.filter-chip:hover { background: var(--green-pale); }
+.filter-chip.active { background: var(--green-pale); font-weight: 600; }
+
+.filter-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── Lista de Ecopontos na Sidebar ─────────────────────── */
+.ecoponto-card {
+  display: flex;
+  align-items: flex-start;
+  gap: .6rem;
+  padding: .6rem .8rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background var(--transition);
+  margin-bottom: .2rem;
+}
+
+.ecoponto-card:hover { background: var(--green-pale); }
+.ecoponto-card.active { background: #d4edda; border-left: 3px solid var(--green-main); }
+
+.ecoponto-card-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: .85rem;
+  color: #fff;
+}
+
+.ecoponto-card-info .title {
+  font-weight: 600;
+  font-size: .84rem;
+  line-height: 1.2;
+}
+
+.ecoponto-card-info .subtitle {
+  font-size: .75rem;
+  color: var(--text-muted);
+}
+
+.ecoponto-card-info .badges {
+  margin-top: .2rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .2rem;
+}
+
+/* ── Mapa ──────────────────────────────────────────────── */
+#map {
+  flex: 1;
+  height: 100%;
+  background: #e8ebe0;
+}
+
+/* ── Leaflet Popup customizado ─────────────────────────── */
+.eco-popup { min-width: 240px; max-width: 300px; }
+
+.eco-popup-header {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: .6rem .8rem;
+  border-radius: 8px 8px 0 0;
+  margin: -13px -20px 0;
+}
+
+.eco-popup-header h6 { margin: 0; font-size: .9rem; font-weight: 700; }
+
+.eco-popup-body { padding: .6rem 0 0; }
+
+.eco-popup-row {
+  display: flex;
+  align-items: flex-start;
+  gap: .4rem;
+  font-size: .8rem;
+  margin-bottom: .35rem;
+  color: #444;
+}
+
+.eco-popup-row i { margin-top: .1rem; flex-shrink: 0; width: 14px; }
+
+.eco-popup-tags { display: flex; flex-wrap: wrap; gap: .25rem; margin: .4rem 0; }
+
+.eco-popup-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: .2rem;
+  font-size: .68rem;
+  font-weight: 600;
+  padding: .15rem .45rem;
+  border-radius: 999px;
+  color: #fff;
+}
+
+.eco-popup-actions { display: flex; gap: .4rem; margin-top: .6rem; }
+
+.eco-popup-actions .btn { font-size: .75rem; padding: .3rem .6rem; flex: 1; }
+
+/* Badge de status */
+.status-badge {
+  display: inline-block;
+  padding: .15rem .5rem;
+  border-radius: 999px;
+  font-size: .7rem;
+  font-weight: 700;
+}
+.status-ativo      { background: #d4edda; color: #155724; }
+.status-inativo    { background: #f8d7da; color: #721c24; }
+.status-manutencao { background: #fff3cd; color: #856404; }
+
+/* ── Botões Flutuantes (FAB) ───────────────────────────── */
+.fab-sidebar,
+.fab-whatsapp {
+  position: fixed;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,.3);
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  z-index: 1000;
+  transition: transform var(--transition), box-shadow var(--transition);
+  text-decoration: none;
+}
+
+.fab-sidebar:hover,
+.fab-whatsapp:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(0,0,0,.35);
+}
+
+.fab-sidebar {
+  bottom: 80px;
+  right: 1rem;
+  background: var(--green-main);
+  color: #fff;
+}
+
+.fab-whatsapp {
+  bottom: 1rem;
+  right: 1rem;
+  background: #25d366;
+  color: #fff;
+}
+
+/* ── Leaflet MarkerCluster override ────────────────────── */
+.marker-cluster-small,
+.marker-cluster-medium,
+.marker-cluster-large {
+  background-clip: padding-box;
+}
+
+.marker-cluster-small div,
+.marker-cluster-medium div,
+.marker-cluster-large div {
+  background: var(--green-main);
+  color: #fff;
+  font-weight: 700;
+}
+
+/* ── Leaflet custom marker SVG ─────────────────────────── */
+.eco-marker-pin {
+  width: 32px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  box-shadow: 0 2px 6px rgba(0,0,0,.35);
+}
+
+.eco-marker-pin i {
+  transform: rotate(45deg);
+  font-size: .85rem;
+  color: #fff;
+}
+
+/* ── Empty states ──────────────────────────────────────── */
+.empty-state {
+  text-align: center;
+  padding: 2rem 1rem;
+  color: var(--text-muted);
+}
+
+.empty-state i { font-size: 2rem; margin-bottom: .5rem; display: block; }
+
+/* ── Mobile responsivo ─────────────────────────────────── */
+@media (max-width: 991.98px) {
+
+  body { overflow: auto; }
+
+  html, body { overflow: auto; }
+
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: calc(var(--navbar-h) + var(--statsbar-h));
+    bottom: 0;
+    transform: translateX(-100%);
+    width: var(--sidebar-w-sm);
+    z-index: 1000;
+    box-shadow: 4px 0 16px rgba(0,0,0,.2);
+  }
+
+  .sidebar.open { transform: translateX(0); }
+
+  .app-container { overflow: auto; }
+
+  #map {
+    position: fixed;
+    top: calc(var(--navbar-h) + var(--statsbar-h));
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .stats-bar { gap: .8rem; font-size: .75rem; }
+  .navbar-green { font-size: .9rem; }
+}
+
+/* ── Scrollbar customizada ─────────────────────────────── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #f1f1f1; }
+::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: var(--green-main); }
+
+/* ── Leaflet control estilizado ────────────────────────── */
+.leaflet-control-zoom a {
+  background-color: #fff !important;
+  color: var(--green-main) !important;
+  font-weight: 700;
+}
+
+.leaflet-control-zoom a:hover {
+  background-color: var(--green-pale) !important;
+}

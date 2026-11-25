@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Mapa interativo dos ecopontos de Marabá/PA. Encontre o ponto de coleta de recicláveis mais próximo de você e descarte corretamente.">
+    <meta property="og:title" content="Ecopontos Marabá/PA">
+    <meta property="og:description" content="Encontre o ecoponto mais próximo e descarte seus recicláveis corretamente!">
+    <title>🌱 Ecopontos Marabá/PA</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <!-- Leaflet CSS -->
+    <link href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" rel="stylesheet">
+    <!-- Leaflet MarkerCluster CSS -->
+    <link href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" rel="stylesheet">
+    <link href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════
+     NAVBAR
+══════════════════════════════════════════════════ -->
+<nav class="navbar navbar-expand-lg navbar-dark navbar-green py-2 px-3">
+    <a class="navbar-brand fw-bold fs-5" href="#">
+        <i class="fas fa-recycle me-2"></i>Ecopontos Marabá
+    </a>
+    <div class="d-flex align-items-center gap-2 ms-auto">
+        <button class="btn btn-outline-light btn-sm" id="btnGeo" title="Ver minha localização no mapa">
+            <i class="fas fa-location-crosshairs me-1"></i>
+            <span class="d-none d-sm-inline">Me encontrar</span>
+        </button>
+        <a href="admin.html" class="btn btn-warning btn-sm fw-semibold">
+            <i class="fas fa-lock me-1"></i>Admin
+        </a>
+    </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════════
+     BARRA DE ESTATÍSTICAS
+══════════════════════════════════════════════════ -->
+<div class="stats-bar">
+    <div class="stat-item">
+        <i class="fas fa-map-pin text-danger"></i>
+        <strong id="stat-total">0</strong> ecopontos
+    </div>
+    <div class="stat-item">
+        <i class="fas fa-check-circle text-success"></i>
+        <strong id="stat-active">0</strong> ativos
+    </div>
+    <div class="stat-item d-none d-md-flex">
+        <i class="fas fa-recycle" style="color:#27ae60"></i>
+        <strong id="stat-types">7</strong> tipos de resíduo
+    </div>
+    <div class="stat-item d-none d-lg-flex">
+        <i class="fas fa-city text-info"></i>
+        Marabá/PA
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     LAYOUT PRINCIPAL
+══════════════════════════════════════════════════ -->
+<div class="app-container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+
+        <!-- Busca -->
+        <div class="sidebar-section border-bottom pb-3">
+            <div class="input-group input-group-sm">
+                <span class="input-group-text bg-white border-end-0 text-muted">
+                    <i class="fas fa-search"></i>
+                </span>
+                <input type="text" class="form-control border-start-0 ps-1"
+                       id="searchInput" placeholder="Buscar por nome ou bairro...">
+                <button class="btn btn-outline-secondary btn-sm" id="clearSearch" title="Limpar busca">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Filtros por tipo de resíduo -->
+        <div class="sidebar-section border-bottom pb-3">
+            <div class="sidebar-label">
+                <i class="fas fa-filter me-1"></i> Tipo de Resíduo
+            </div>
+            <div id="filterList">
+                <!-- Preenchido por map.js -->
+                <div class="filter-chip active" data-filter="all">
+                    <span class="filter-dot" style="background:#2d7d46"></span>
+                    Todos
+                    <span class="ms-auto badge bg-secondary" id="fc-all">0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lista de ecopontos -->
+        <div class="sidebar-section flex-fill" style="overflow-y:auto; min-height:0;">
+            <div class="sidebar-label">
+                <i class="fas fa-list me-1"></i> Ecopontos
+            </div>
+            <div id="ecopointsList">
+                <div class="text-center text-muted py-5">
+                    <i class="fas fa-spinner fa-spin fa-2x mb-3 d-block"></i>
+                    <small>Carregando ecopontos...</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dica educativa -->
+        <div class="sidebar-tip">
+            <i class="fas fa-lightbulb text-warning me-1"></i>
+            <small><strong>Dica:</strong> Limpe as embalagens antes de descartar. Materiais limpos têm maior valor de reciclagem!</small>
+        </div>
+
+    </aside>
+
+    <!-- MAPA -->
+    <div id="map"></div>
+
+</div>
+
+<!-- Botão flutuante — Toggle Sidebar (mobile) -->
+<button class="fab-sidebar d-lg-none" id="sidebarToggle" title="Filtros">
+    <i class="fas fa-filter"></i>
+</button>
+
+<!-- Botão flutuante — Compartilhar no WhatsApp -->
+<a class="fab-whatsapp" id="whatsappShare" target="_blank" title="Compartilhar no WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+</a>
+
+<!-- ══════════════════════════════════════════════════
+     SCRIPTS
+══════════════════════════════════════════════════ -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+<!-- Configuração e dados -->
+<script src="js/config.js"></script>
+<script src="js/data.js"></script>
+<script src="js/map.js"></script>
+
+</body>
+</html>
