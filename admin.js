@@ -356,3 +356,130 @@ function _setVal(id, value) {
   const el = document.getElementById(id);
   if (el) el.value = value ?? '';
 }
+
+function _exportarDataJS() {
+  const lista = DataManager.listarTodos();
+  const versaoKey = 'ecopontos_maraba_v' + Date.now();
+
+  const conteudo = `/* ═══════════════════════════════════════════════════════════
+   DATA.JS — Gerenciamento de Dados dos Ecopontos / PEVs
+   Atualizado em: ${new Date().toLocaleString('pt-BR')}
+═══════════════════════════════════════════════════════════ */
+
+const DADOS_DEMO = ${JSON.stringify(lista, null, 2)};
+
+const DataManager = (() => {
+  const STORAGE_KEY = '${versaoKey}';
+
+  function _load() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+      }
+    } catch (e) {}
+    _save(DADOS_DEMO);
+    return [...DADOS_DEMO];
+  }
+
+  function _save(dados) {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(dados));
+    } catch (e) {
+      console.error('[DataManager] Erro ao salvar no localStorage:', e);
+    }
+  }
+
+  function _gerarId() {
+    return 'eco-' + Date.now().toString(36) + '-' + Math.random().toString(36).substr(2, 5);
+  }
+
+  return {
+    listarTodos() { return _load(); },
+    listarAtivos() { return _load().filter(e => e.status === 'ativo'); },
+    buscarPorId(id) { return _load().find(e => e.id === id) ?? null; },
+    criar(dados) {
+      const lista = _load();
+      const novo = { ...dados, id: _gerarId(), criadoEm: new Date().toISOString() };
+      lista.push(novo);
+      _save(lista);
+      return novo;
+    },
+    atualizar(id, dadosAtualizados) {
+      const lista = _load();
+      const idx = lista.findIndex(e => e.id === id);
+      if (idx === -1) return null;
+      lista[idx] = { ...lista[idx], ...dadosAtualizados, id, atualizadoEm: new Date().toISOString() };
+      _save(lista);
+      return lista[idx];
+    },
+    remover(id) {
+      const lista = _load();
+      const nova = lista.filter(e => e.id !== id);
+      if (nova.length === lista.length) return false;
+      _save(nova);
+      return true;
+    },
+    exportarGeoJSON() {
+      const lista = _load();
+      return {
+        type: 'FeatureCollection',
+        name: 'Ecopontos_Maraba',
+        crs: { type: 'name', properties: { name: 'urn:ogc:def:crs:OGC:1.3:CRS84' } },
+        features: lista.map(e => ({
+          type: 'Feature',
+          properties: {
+            id: e.id, nome: e.nome, endereco: e.endereco, bairro: e.bairro,
+            horario: e.horario, telefone: e.telefone, email: e.email,
+            foto: e.foto, tipos: (e.tipos ?? []).join(','),
+            status: e.status, obs: e.obs, criadoEm: e.criadoEm,
+          },
+          geometry: { type: 'Point', coordinates: [e.lng, e.lat] },
+        })),
+      };
+    },
+    importarGeoJSON(geojson) {
+      if (geojson.type !== 'FeatureCollection') throw new Error('GeoJSON inválido');
+      const lista = geojson.features.map(f => ({
+        id: f.properties.id ?? _gerarId(),
+        nome: f.properties.nome ?? '',
+        endereco: f.properties.endereco ?? '',
+        bairro: f.properties.bairro ?? '',
+        lat: f.geometry.coordinates[1],
+        lng: f.geometry.coordinates[0],
+        horario: f.properties.horario ?? '',
+        telefone: f.properties.telefone ?? '',
+        email: f.properties.email ?? '',
+        foto: f.properties.foto ?? '',
+        tipos: (f.properties.tipos ?? '').split(',').filter(Boolean),
+        status: f.properties.status ?? 'ativo',
+        obs: f.properties.obs ?? '',
+        criadoEm: f.properties.criadoEm ?? new Date().toISOString(),
+      }));
+      _save(lista);
+      return lista;
+    },
+    estatisticas() {
+      const lista = _load();
+      return {
+        total: lista.length,
+        ativos: lista.filter(e => e.status === 'ativo').length,
+        inativos: lista.filter(e => e.status === 'inativo').length,
+        manutencao: lista.filter(e => e.status === 'manutencao').length,
+        bairros: new Set(lista.map(e => e.bairro)).size,
+      };
+    },
+  };
+})();
+`;
+
+  const blob = new Blob([conteudo], { type: 'application/javascript;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = 'data.js';
+  link.click();
+  URL.revokeObjectURL(url);
+  _mostrarToast('Arquivo data.js baixado! Envie-o para a raiz do repositório no GitHub.');
+}
