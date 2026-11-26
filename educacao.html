@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Educação Ambiental — Ecopontos Marabá/PA</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="style.css" rel="stylesheet">
+
+    <style>
+        html, body {
+            height: auto !important;
+            overflow: auto !important;
+            background: #f4f7f4;
+        }
+        .hero-edu {
+            background: linear-gradient(135deg, #1a5c30 0%, #2d7d46 100%);
+            color: #fff;
+            padding: 2.5rem 1rem;
+        }
+        .edu-card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, .06);
+            height: 100%;
+            transition: transform .15s ease;
+        }
+        .edu-card:hover {
+            transform: translateY(-3px);
+        }
+        .residuo-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: .4rem;
+            font-weight: 700;
+            font-size: .85rem;
+            padding: .35rem .75rem;
+            border-radius: 999px;
+            color: #fff;
+            margin-bottom: .75rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-green py-2 px-3" style="background:#1a5c30;">
+        <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="index.html">
+            <i class="fas fa-recycle"></i>
+            <span>Ecopontos Marabá</span>
+        </a>
+        <div class="ms-auto d-flex gap-2">
+            <a href="index.html" class="btn btn-light btn-sm fw-semibold text-success">
+                <i class="fas fa-map-marked-alt me-1"></i>Mapa
+            </a>
+            <a href="educacao.html" class="btn btn-outline-light btn-sm active">
+                <i class="fas fa-seedling me-1"></i>Educação Ambiental
+            </a>
+            <a href="admin.html" class="btn btn-warning btn-sm fw-semibold">
+                <i class="fas fa-lock me-1"></i>Admin
+            </a>
+        </div>
+    </nav>
+
+    <!-- CABEÇALHO -->
+    <header class="hero-edu text-center">
+        <div class="container" style="max-width: 820px;">
+            <span class="badge bg-light text-success mb-2 px-3 py-2 fw-bold">
+                <i class="fas fa-leaf me-1"></i>Conscientização e Descarte Correto
+            </span>
+            <h1 class="fw-bold mb-2">Educação Ambiental em Marabá/PA</h1>
+            <p class="mb-0 opacity-90">
+                Aprenda como separar corretamente os resíduos recicláveis, o que pode ser entregue nas Ecoilhas e PEVs e como pequenas atitudes transformam nossa cidade.
+            </p>
+        </div>
+    </header>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="container py-4" style="max-width: 1050px;">
+
+        <!-- SEÇÃO 1: COMO SEPARAR OS RESÍDUOS -->
+        <h4 class="fw-bold text-success mb-3">
+            <i class="fas fa-dumpster me-2"></i>Guia Rápido de Separação
+        </h4>
+        <div class="row g-3 mb-5">
+            <!-- Papel -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card edu-card p-3">
+                    <span class="residuo-badge" style="background:#2980b9;">
+                        <i class="fas fa-newspaper"></i>Papel e Papelão
+                    </span>
+                    <p class="small mb-2"><strong>Pode descartar:</strong> caixas de papelão desmontadas, jornais, revistas, folhas de caderno, envelopes e embalagens longa vida limpas.</p>
+                    <p class="small text-danger mb-0"><strong>Evite:</strong> papel higiênico, guardanapos sujos, papel engordurado ou plastificado.</p>
+                </div>
+            </div>
+
+            <!-- Plástico -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card edu-card p-3">
+                    <span class="residuo-badge" style="background:#e74c3c;">
+                        <i class="fas fa-bottle-water"></i>Plástico
+                    </span>
+                    <p class="small mb-2"><strong>Pode descartar:</strong> garrafas PET, embalagens de produtos de limpeza, potes de alimentos, sacolas e tampas plásticas.</p>
+                    <p class="small text-danger mb-0"><strong>Evite:</strong> embalagens com restos de comida ou produtos químicos sem enxágue leve.</p>
+                </div>
+            </div>
+
+            <!-- Metal -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card edu-card p-3">
+                    <span class="residuo-badge" style="background:#f39c12;">
+                        <i class="fas fa-can-food"></i>Metal
+                    </span>
+                    <p class="small mb-2"><strong>Pode descartar:</strong> latinhas de alumínio, latas de alimentos (milho, ervilha, sardinha), tampas metálicas e ferragens leves.</p>
+                    <p class="small text-danger mb-0"><strong>Evite:</strong> latas de tinta, solventes, pilhas e baterias (têm descarte específico).</p>
+                </div>
+            </div>
+
+            <!-- Vidro -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card edu-card p-3">
+                    <span class="residuo-badge" style="background:#27ae60;">
+                        <i class="fas fa-wine-bottle"></i>Vidro
+                    </span>
+                    <p class="small mb-2"><strong>Pode descartar:</strong> garrafas de bebidas, potes de conserva, frascos de perfume e copos de vidro.</p>
+                    <p class="small text-danger mb-0"><strong>Atenção:</strong> se houver vidro quebrado, embale em papelão ou garrafa PET cortada para proteger os coletores.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEÇÃO 2: ARTIGOS / DICAS / AÇÕES -->
+        <h4 class="fw-bold text-success mb-3">
+            <i class="fas fa-book-open me-2"></i>Conteúdos e Boas Práticas
+        </h4>
+        <div class="row g-4 mb-5" id="listaConteudos">
+
+            <!-- Card de conteúdo 1 -->
+            <div class="col-md-6">
+                <div class="card edu-card">
+                    <div class="card-body p-4">
+                        <span class="badge bg-success-subtle text-success mb-2">Dica Prática</span>
+                        <h5 class="fw-bold">Por que limpar as embalagens antes de descartar?</h5>
+                        <p class="text-muted small mb-0">
+                            Passar uma água rápida (pode ser a água de reaproveitamento da louça) evita mau cheiro, impede a proliferação de insetos nas Ecoilhas e aumenta o valor comercial do material reciclável para os catadores e cooperativas.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card de conteúdo 2 -->
+            <div class="col-md-6">
+                <div class="card edu-card">
+                    <div class="card-body p-4">
+                        <span class="badge bg-primary-subtle text-primary mb-2">Logística Reversa</span>
+                        <h5 class="fw-bold">Onde descartar eletroeletrônicos em Marabá?</h5>
+                        <p class="text-muted small mb-0">
+                            Celulares antigos, cabos, carregadores e pequenos eletrodomésticos não devem ir para o lixo comum nem para as Ecoilhas tradicionais. Utilize os Pontos de Entrega Voluntária (PEVs) específicos indicados no mapa.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card de conteúdo 3 (modelo pronto para você duplicar e editar) -->
+            <div class="col-md-6">
+                <div class="card edu-card">
+                    <div class="card-body p-4">
+                        <span class="badge bg-warning-subtle text-dark mb-2">Sustentabilidade no Dia a Dia</span>
+                        <h5 class="fw-bold">Os 5 Rs da Sustentabilidade</h5>
+                        <p class="text-muted small mb-0">
+                            <strong>Repensar, Recusar, Reduzir, Reutilizar e Reciclar:</strong> antes de reciclar, avalie se é possível evitar descartáveis, reaproveitar potes e reduzir a geração de resíduos na fonte.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card de conteúdo 4 -->
+            <div class="col-md-6">
+                <div class="card edu-card">
+                    <div class="card-body p-4">
+                        <span class="badge bg-info-subtle text-dark mb-2">Ecoilhas Marabá</span>
+                        <h5 class="fw-bold">Como funcionam as Ecoilhas?</h5>
+                        <p class="text-muted small mb-0">
+                            As Ecoilhas são pontos fixos instalados em praças e vias estratégicas de Marabá para recebimento voluntário de recicláveis secos (papel, plástico, metal e vidro), funcionando 24 horas por dia.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- CHAMADA PARA O MAPA -->
+        <div class="card border-0 shadow-sm bg-white p-4 text-center">
+            <h5 class="fw-bold text-success mb-2">Pronto para descartar seus recicláveis?</h5>
+            <p class="text-muted small mb-3">Consulte no mapa a Ecoilha ou PEV mais próximo da sua casa.</p>
+            <div>
+                <a href="index.html" class="btn btn-success fw-bold px-4">
+                    <i class="fas fa-map-marker-alt me-2"></i>Encontrar Ecoponto no Mapa
+                </a>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="text-center text-muted small py-4">
+        Ecopontos Marabá/PA • Educação Ambiental e Coleta Seletiva
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
