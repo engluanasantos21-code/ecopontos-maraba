@@ -28,8 +28,8 @@ const APP_CONFIG = {
   //   2. Digite a nova senha
   //   3. Cole o hash gerado abaixo
   //
-  adminPasswordHash: '7bab2f86c89c8e30a7de0f9b9748d0a44fe3bda9fdf8f07bfef28b0b0c649e4f',
-  // Senha padrão acima = "ecopontos2024"
+  adminPasswordHash: '7b2c27baa2adf3b57734a84bb0600875d152b74ba57fada2cac23dd558d525b9',
+  // Senha padrão acima = "marabacresce"
 
   // ── Firebase (opcional — para backend em nuvem) ───────
   // Deixe como null para usar localStorage (modo demo/offline).
