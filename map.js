@@ -38,7 +38,7 @@ function _ehEcoIlha(eco) {
 }
 
 function _getImagemEcoIlha(eco) {
-  return eco.imagem || (typeof APP_CONFIG !== 'undefined' && APP_CONFIG.iconeEcoIlha) || 'ecoilha-icon.png';
+  return eco.imagem || (typeof APP_CONFIG !== 'undefined' && APP_CONFIG.iconeEcoIlha) || 'img/ecoilha-icon.png';
 }
 
 function _resolverIconePonto(eco) {
