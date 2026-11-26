@@ -20,10 +20,11 @@ let _deletandoId = null;
 /* ── Inicialização ──────────────────────────────────────── */
 
 document.addEventListener('DOMContentLoaded', () => {
-  _verificarSessao();
+ _verificarSessao();
   _configurarLogin();
   _configurarAdmin();
   _renderizarChipsTipos();
+  document.getElementById('exportDataJsBtn')?.addEventListener('click', _exportarDataJS);
 });
 
 /* ── Autenticação ───────────────────────────────────────── */
