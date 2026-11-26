@@ -1,128 +1,320 @@
 /* ═══════════════════════════════════════════════════════════
-   DATA.JS — Gerenciamento de Dados dos Ecopontos
-   
-   Estratégia de armazenamento:
-     • Modo demo (padrão): localStorage do navegador
-     • Modo produção: Firebase Firestore (configure em config.js)
-   
-   Os dados de demo são perdidos ao limpar o navegador.
-   Para persistência real, configure o Firebase.
+   DATA.JS — Gerenciamento de Dados dos Ecopontos / PEVs
+   Fonte: Levantamento de Ecoilhas - Pontos de Instalação - 2026.xlsx
 ═══════════════════════════════════════════════════════════ */
 
-/* ──────────────────────────────────────────────────────────
-   DADOS DE EXEMPLO — Ecopontos de Marabá/PA
-   Substitua ou complemente com seus dados reais do QGIS.
-   
-   Formato para importar do QGIS:
-     Exporte como GeoJSON → copie as features para o array abaixo
-     (ou coloque em data-ecopontos.json e carregue via fetch)
-────────────────────────────────────────────────────────── */
 const DADOS_DEMO = [
   {
     id: 'eco-001',
-    nome: 'Ecoponto Folha 31',
-    endereco: 'Av. dos Pioneiros, s/n — Folha 31',
-    bairro: 'Folha 31 (Nova Marabá)',
-    lat: -5.3598,
-    lng: -49.1058,
-    horario: 'Seg–Sex 8h–17h | Sáb 8h–12h',
-    telefone: '(94) 3322-0001',
+    nome: 'EcoIlha01',
+    endereco: 'Ministério Público do Estado do Pará',
+    bairro: 'Amapá',
+    lat: -5.359675,
+    lng: -49.122923,
+    horario: '24h',
+    telefone: '',
+    email: '',
+    foto: 'img/fotos/ecoilha01.jpg',
+    tipos: ['plastico', 'papel', 'metal', 'vidro'],
+    status: 'ativo',
+    obs: 'Ecoilhas da Prefeitura Municipal de Marabá. Coleta domiciliar: Não.',
+    criadoEm: '2026-01-01T00:00:00.000Z',
+  },
+  {
+    id: 'eco-002',
+    nome: 'EcoIlha02',
+    endereco: 'Praça São Francisco',
+    bairro: 'Cidade Nova',
+    lat: -5.370558,
+    lng: -49.127927,
+    horario: '24h',
+    telefone: '',
+    email: '',
+    foto: 'img/fotos/ecoilha02.jpg',
+    tipos: ['plastico', 'papel', 'metal', 'vidro'],
+    status: 'ativo',
+    obs: 'Ecoilhas da Prefeitura Municipal de Marabá. Coleta domiciliar: Não.',
+    criadoEm: '2026-01-01T00:00:00.000Z',
+  },
+  {
+    id: 'eco-003',
+    nome: 'EcoIlha03',
+    endereco: 'Praça da Liberdade',
+    bairro: 'Liberdade',
+    lat: -5.393406,
+    lng: -49.13745,
+    horario: '24h',
+    telefone: '',
+    email: '',
+    foto: 'img/fotos/ecoilha03.jpg',
+    tipos: ['plastico', 'papel', 'metal', 'vidro'],
+    status: 'ativo',
+    obs: 'Ecoilhas da Prefeitura Municipal de Marabá. Coleta domiciliar: Não.',
+    criadoEm: '2026-01-01T00:00:00.000Z',
+  },
+  {
+    id: 'eco-004',
+    nome: 'EcoIlha04',
+    endereco: 'Praça do Maçom',
+    bairro: 'Nova Marabá',
+    lat: -5.353925,
+    lng: -49.082125,
+    horario: '24h',
+    telefone: '',
+    email: '',
+    foto: 'img/fotos/ecoilha04.jpg',
+    tipos: ['plastico', 'papel', 'metal', 'vidro'],
+    status: 'ativo',
+    obs: 'Ecoilhas da Prefeitura Municipal de Marabá. Coleta domiciliar: Não.',
+    criadoEm: '2026-01-01T00:00:00.000Z',
+  },
+  {
+    id: 'eco-005',
+    nome: 'EcoIlha05',
+    endereco: 'Ginásio FL 16',
+    bairro: 'Nova Marabá',
+    lat: -5.338396,
+    lng: -49.092878,
+    horario: '24h',
+    telefone: '',
+    email: '',
+    foto: 'img/fotos/ecoilha05.jpg',
+    tipos: ['plastico', 'papel', 'metal', 'vidro'],
+    status: 'ativo',
+    obs: 'Ecoilhas da Prefeitura Municipal de Marabá. Coleta domiciliar: Não.',
+    criadoEm: '2026-01-01T00:00:00.000Z',
+  },
+  {
+    id: 'eco-007',
+    nome: 'EcoIlha07',
+    endereco: 'Praça da Prefeitura',
+    bairro: 'Nova Marabá',
+    lat: -5.347094,
+    lng: -49.097953,
+    horario: '24h',
+    telefone: '',
+    email: '',
+    foto: 'img/fotos/ecoilha07.jpg',
+    tipos: ['plastico', 'papel', 'metal', 'vidro'],
+    status: 'ativo',
+    obs: 'Ecoilhas da Prefeitura Municipal de Marabá. Coleta domiciliar: Não.',
+    criadoEm: '2026-01-01T00:00:00.000Z',
+  },
+  {
+    id: 'eco-008',
+    nome: 'EcoIlha08',
+    endereco: 'Hospital Municipal de Marabá',
+    bairro: 'Nova Marabá',
+    lat: -5.341385,
+    lng: -49.086611,
+    horario: '24h',
+    telefone: '',
+    email: '',
+    foto: 'img/fotos/ecoilha08.jpg',
+    tipos: ['plastico', 'papel', 'metal', 'vidro'],
+    status: 'ativo',
+    obs: 'Ecoilhas da Prefeitura Municipal de Marabá. Coleta domiciliar: Não.',
+    criadoEm: '2026-01-01T00:00:00.000Z',
+  },
+  {
+    id: 'eco-009',
+    nome: 'EcoIlha09',
+    endereco: 'Av. Tocantins',
+    bairro: 'Novo Horizonte',
+    lat: -5.367,
+    lng: -49.122689,
+    horario: '24h',
+    telefone: '',
+    email: '',
+    foto: 'img/fotos/ecoilha09.jpg',
+    tipos: ['plastico', 'papel', 'metal', 'vidro'],
+    status: 'ativo',
+    obs: 'Ecoilhas da Prefeitura Municipal de Marabá. Coleta domiciliar: Não.',
+    criadoEm: '2026-01-01T00:00:00.000Z',
+  },
+  {
+    id: 'eco-010',
+    nome: 'EcoIlha10',
+    endereco: 'Praça São Félix de Valois - Orla Sebastião Miranda',
+    bairro: 'Velha Marabá',
+    lat: -5.35052,
+    lng: -49.139438,
+    horario: '24h',
+    telefone: '',
+    email: '',
+    foto: 'img/fotos/ecoilha10.jpg',
+    tipos: ['plastico', 'papel', 'metal', 'vidro'],
+    status: 'ativo',
+    obs: 'Ecoilhas da Prefeitura Municipal de Marabá. Coleta domiciliar: Não.',
+    criadoEm: '2026-01-01T00:00:00.000Z',
+  },
+  {
+    id: 'eco-011',
+    nome: 'EcoIlha11',
+    endereco: 'Orla Sebastião Miranda - Proximo as quadras',
+    bairro: 'Velha Marabá',
+    lat: -5.341289,
+    lng: -49.128844,
+    horario: '24h',
+    telefone: '',
+    email: '',
+    foto: 'img/fotos/ecoilha11.jpg',
+    tipos: ['plastico', 'papel', 'metal', 'vidro'],
+    status: 'ativo',
+    obs: 'Ecoilhas da Prefeitura Municipal de Marabá. Coleta domiciliar: Não.',
+    criadoEm: '2026-01-01T00:00:00.000Z',
+  },
+  {
+    id: 'eco-012',
+    nome: 'EcoIlha12',
+    endereco: 'Av. Getúlio Vargas',
+    bairro: 'Velha Marabá',
+    lat: -5.348494,
+    lng: -49.135669,
+    horario: '24h',
+    telefone: '',
+    email: '',
+    foto: 'img/fotos/ecoilha12.jpg',
+    tipos: ['plastico', 'papel', 'metal', 'vidro'],
+    status: 'ativo',
+    obs: 'Ecoilhas da Prefeitura Municipal de Marabá. Coleta domiciliar: Não.',
+    criadoEm: '2026-01-01T00:00:00.000Z',
+  },
+  {
+    id: 'eco-013',
+    nome: 'Casas Bahia',
+    endereco: 'Av. Antônio Maia, 1538.',
+    bairro: 'Velha Marabá',
+    lat: -5.348941,
+    lng: -49.131519,
+    horario: 'Seg–Sex 8h30–17h',
+    telefone: '',
+    email: '',
+    foto: '',
+    tipos: ['eletronico'],
+    status: 'ativo',
+    obs: 'Resíduos eletroeletrônicos e eletrodomésticos (Fonte: Green Eletron).',
+    criadoEm: '2026-01-01T00:00:00.000Z',
+  },
+  {
+    id: 'eco-014',
+    nome: 'Sesc',
+    endereco: 'Avenida Transamazônica, 1925',
+    bairro: 'Cidade Nova',
+    lat: -5.367926,
+    lng: -49.127573,
+    horario: 'Seg–Sex 8h30–17h',
+    telefone: '(94) 3324-4444',
+    email: '',
+    foto: '',
+    tipos: ['eletronico'],
+    status: 'inativo',
+    obs: 'Para produtos de maior porte (geladeiras/fogões): coleta@abree.org.br ou WhatsApp (11) 97811-6126 / (11) 98991-4558.',
+    criadoEm: '2026-01-01T00:00:00.000Z',
+  },
+
+  /* ── PONTOS SEM COORDENADAS NA PLANILHA (preencha lat/lng e descomente) ──
+  {
+    id: 'eco-006',
+    nome: 'EcoIlha06',
+    endereco: 'Praça FL 12',
+    bairro: 'Nova Marabá',
+    lat: null,
+    lng: null,
+    horario: '24h',
+    telefone: '',
     email: '',
     foto: '',
     tipos: ['plastico', 'papel', 'metal', 'vidro'],
     status: 'ativo',
-    obs: 'Ponto de referência: próximo ao campo society da Folha 31.',
-    criadoEm: new Date('2024-01-10').toISOString(),
+    obs: 'Ecoilhas da Prefeitura Municipal de Marabá.',
+    criadoEm: '2026-01-01T00:00:00.000Z',
   },
   {
-    id: 'eco-002',
-    nome: 'Ecoponto Cidade Nova',
-    endereco: 'Rua C, Quadra 12 — Cidade Nova',
+    id: 'eco-016',
+    nome: 'MAGAZINE LUIZA - FILIAL 1312 - Abree',
+    endereco: 'AVENIDA NAGIB MUTRAN, 142',
     bairro: 'Cidade Nova',
-    lat: -5.3912,
-    lng: -49.1340,
-    horario: 'Seg–Sáb 7h–18h',
-    telefone: '(94) 3322-0002',
-    email: 'ecoponto@maraba.pa.gov.br',
-    foto: '',
-    tipos: ['plastico', 'papel', 'vidro', 'oleo'],
-    status: 'ativo',
-    obs: 'Aceita óleo de cozinha em recipientes fechados (máx. 5L por visita).',
-    criadoEm: new Date('2024-02-15').toISOString(),
-  },
-  {
-    id: 'eco-003',
-    nome: 'Ecoponto Velha Marabá',
-    endereco: 'Av. Antônio Maia, 500 — Velha Marabá',
-    bairro: 'Velha Marabá (Centro)',
-    lat: -5.3734,
-    lng: -49.1160,
-    horario: 'Seg–Sex 8h–17h',
-    telefone: '(94) 3322-0003',
-    email: '',
-    foto: '',
-    tipos: ['plastico', 'papel', 'metal', 'vidro', 'eletronico'],
-    status: 'ativo',
-    obs: 'Aceita REEE (resíduos eletroeletrônicos): celulares, pilhas, baterias.',
-    criadoEm: new Date('2024-01-20').toISOString(),
-  },
-  {
-    id: 'eco-004',
-    nome: 'Ecoponto São Félix',
-    endereco: 'Rua dos Ipês, s/n — São Félix',
-    bairro: 'São Félix',
-    lat: -5.3620,
-    lng: -49.1250,
-    horario: 'Ter e Qui 8h–17h | Sáb 8h–13h',
+    lat: null,
+    lng: null,
+    horario: 'Seg–Sex 8h30–17h',
     telefone: '',
     email: '',
     foto: '',
-    tipos: ['plastico', 'papel', 'organico'],
+    tipos: ['eletronico'],
     status: 'ativo',
-    obs: 'Ponto gerenciado pela associação de moradores local.',
-    criadoEm: new Date('2024-03-01').toISOString(),
+    obs: 'Eletroeletrônicos e eletrodomésticos (Abree).',
+    criadoEm: '2026-01-01T00:00:00.000Z',
   },
   {
-    id: 'eco-005',
-    nome: 'Ecoponto Marabá Pioneira',
-    endereco: 'Av. Marechal Rondon, 1200',
-    bairro: 'Marabá Pioneira',
-    lat: -5.3680,
-    lng: -49.1230,
-    horario: 'Seg–Sex 8h–17h',
-    telefone: '(94) 3322-0005',
+    id: 'eco-017',
+    nome: 'MAGAZINE LUIZA - FILIAL 1313 - Abree',
+    endereco: 'AVENIDA ANTONIO MAIA, 1065',
+    bairro: 'Velha Marabá',
+    lat: null,
+    lng: null,
+    horario: 'Seg–Sex 8h30–17h',
+    telefone: '',
     email: '',
     foto: '',
-    tipos: ['plastico', 'metal', 'vidro'],
-    status: 'manutencao',
-    obs: 'Temporariamente em manutenção. Previsão de reabertura: em breve.',
-    criadoEm: new Date('2024-02-01').toISOString(),
+    tipos: ['eletronico'],
+    status: 'ativo',
+    obs: 'Eletroeletrônicos e eletrodomésticos (Abree).',
+    criadoEm: '2026-01-01T00:00:00.000Z',
   },
   {
-    id: 'eco-006',
-    nome: 'Ecoponto Bairro Liberdade',
-    endereco: 'Rua da Paz, s/n — Liberdade',
-    bairro: 'Liberdade',
-    lat: -5.3800,
-    lng: -49.1050,
-    horario: 'Seg–Sex 8h–17h | Sáb 8h–12h',
-    telefone: '(94) 3322-0006',
+    id: 'eco-018',
+    nome: 'CENTRAO TELECOM REVENDA NORTE - ME - Abree',
+    endereco: 'QUADRA QUINZE, S/N',
+    bairro: 'Nova Marabá',
+    lat: null,
+    lng: null,
+    horario: 'Seg–Sex 8h30–17h',
+    telefone: '',
     email: '',
     foto: '',
-    tipos: ['plastico', 'papel', 'vidro', 'metal', 'oleo'],
+    tipos: ['eletronico'],
     status: 'ativo',
-    obs: '',
-    criadoEm: new Date('2024-04-10').toISOString(),
+    obs: 'Eletroeletrônicos e eletrodomésticos (Abree).',
+    criadoEm: '2026-01-01T00:00:00.000Z',
   },
+  {
+    id: 'eco-019',
+    nome: 'Vivo - Loja Marabá',
+    endereco: 'Avenida Frei Raimundo Lambezart Lamberzale, Lote 2237 - Quadra 21',
+    bairro: 'Cidade Nova',
+    lat: null,
+    lng: null,
+    horario: 'Seg–Sex 8h–18h | Sáb 8h–14h',
+    telefone: '(94) 99184-4404',
+    email: '',
+    foto: '',
+    tipos: ['eletronico'],
+    status: 'ativo',
+    obs: 'Carregadores, celulares, baterias de celular e acessórios. Recomendamos contato prévio.',
+    criadoEm: '2026-01-01T00:00:00.000Z',
+  },
+  {
+    id: 'eco-020',
+    nome: 'Varejão das baterias',
+    endereco: 'AVENIDA ANTONIO MAIA',
+    bairro: 'Velha Marabá',
+    lat: null,
+    lng: null,
+    horario: 'Seg–Sex 8h30–17h',
+    telefone: '',
+    email: '',
+    foto: '',
+    tipos: ['baterias'],
+    status: 'ativo',
+    obs: 'Baterias (carro e moto) e nobreak.',
+    criadoEm: '2026-01-01T00:00:00.000Z',
+  },
+  */
 ];
 
-/* ──────────────────────────────────────────────────────────
-   GERENCIADOR DE DADOS
-────────────────────────────────────────────────────────── */
 const DataManager = (() => {
-  const STORAGE_KEY = 'ecopontos_maraba_v1';
-
-  /* -- helpers internos -- */
+  const STORAGE_KEY = 'ecopontos_maraba_v2';
 
   function _load() {
     try {
@@ -132,7 +324,6 @@ const DataManager = (() => {
         if (Array.isArray(parsed) && parsed.length > 0) return parsed;
       }
     } catch (e) { /* ignora erros de parse */ }
-    // Primeira execução — carrega dados de demo
     _save(DADOS_DEMO);
     return [...DADOS_DEMO];
   }
@@ -149,58 +340,17 @@ const DataManager = (() => {
     return 'eco-' + Date.now().toString(36) + '-' + Math.random().toString(36).substr(2, 5);
   }
 
-  /* -- API pública -- */
-
   return {
-
-    /**
-     * Retorna todos os ecopontos.
-     * @returns {Array}
-     */
-    listarTodos() {
-      return _load();
-    },
-
-    /**
-     * Retorna apenas os ecopontos ativos.
-     * @returns {Array}
-     */
-    listarAtivos() {
-      return _load().filter(e => e.status === 'ativo');
-    },
-
-    /**
-     * Busca um ecoponto pelo ID.
-     * @param {string} id
-     * @returns {Object|null}
-     */
-    buscarPorId(id) {
-      return _load().find(e => e.id === id) ?? null;
-    },
-
-    /**
-     * Cria um novo ecoponto.
-     * @param {Object} dados  — dados do ecoponto (sem id/criadoEm)
-     * @returns {Object} ecoponto criado
-     */
+    listarTodos() { return _load(); },
+    listarAtivos() { return _load().filter(e => e.status === 'ativo'); },
+    buscarPorId(id) { return _load().find(e => e.id === id) ?? null; },
     criar(dados) {
       const lista = _load();
-      const novo = {
-        ...dados,
-        id: _gerarId(),
-        criadoEm: new Date().toISOString(),
-      };
+      const novo = { ...dados, id: _gerarId(), criadoEm: new Date().toISOString() };
       lista.push(novo);
       _save(lista);
       return novo;
     },
-
-    /**
-     * Atualiza um ecoponto existente pelo ID.
-     * @param {string} id
-     * @param {Object} dadosAtualizados
-     * @returns {Object|null} ecoponto atualizado
-     */
     atualizar(id, dadosAtualizados) {
       const lista = _load();
       const idx = lista.findIndex(e => e.id === id);
@@ -209,12 +359,6 @@ const DataManager = (() => {
       _save(lista);
       return lista[idx];
     },
-
-    /**
-     * Remove um ecoponto pelo ID.
-     * @param {string} id
-     * @returns {boolean}
-     */
     remover(id) {
       const lista = _load();
       const nova = lista.filter(e => e.id !== id);
@@ -222,11 +366,6 @@ const DataManager = (() => {
       _save(nova);
       return true;
     },
-
-    /**
-     * Exporta todos os ecopontos como GeoJSON.
-     * @returns {Object} FeatureCollection GeoJSON
-     */
     exportarGeoJSON() {
       const lista = _load();
       return {
@@ -236,66 +375,42 @@ const DataManager = (() => {
         features: lista.map(e => ({
           type: 'Feature',
           properties: {
-            id:        e.id,
-            nome:      e.nome,
-            endereco:  e.endereco,
-            bairro:    e.bairro,
-            horario:   e.horario,
-            telefone:  e.telefone,
-            email:     e.email,
-            foto:      e.foto,
-            tipos:     e.tipos.join(','),
-            status:    e.status,
-            obs:       e.obs,
-            criadoEm:  e.criadoEm,
+            id: e.id, nome: e.nome, endereco: e.endereco, bairro: e.bairro,
+            horario: e.horario, telefone: e.telefone, email: e.email, foto: e.foto,
+            tipos: e.tipos.join(','), status: e.status, obs: e.obs, criadoEm: e.criadoEm,
           },
-          geometry: {
-            type: 'Point',
-            coordinates: [e.lng, e.lat],
-          },
+          geometry: { type: 'Point', coordinates: [e.lng, e.lat] },
         })),
       };
     },
-
-    /**
-     * Importa ecopontos a partir de um GeoJSON (FeatureCollection).
-     * Sobrescreve todos os dados existentes.
-     * @param {Object} geojson
-     */
     importarGeoJSON(geojson) {
       if (geojson.type !== 'FeatureCollection') throw new Error('GeoJSON inválido');
       const lista = geojson.features.map(f => ({
-        id:       f.properties.id ?? _gerarId(),
-        nome:     f.properties.nome ?? '',
+        id: f.properties.id ?? _gerarId(),
+        nome: f.properties.nome ?? '',
         endereco: f.properties.endereco ?? '',
-        bairro:   f.properties.bairro ?? '',
-        lat:      f.geometry.coordinates[1],
-        lng:      f.geometry.coordinates[0],
-        horario:  f.properties.horario ?? '',
+        bairro: f.properties.bairro ?? '',
+        lat: f.geometry.coordinates[1],
+        lng: f.geometry.coordinates[0],
+        horario: f.properties.horario ?? '',
         telefone: f.properties.telefone ?? '',
-        email:    f.properties.email ?? '',
-        foto:     f.properties.foto ?? '',
-        tipos:    (f.properties.tipos ?? '').split(',').filter(Boolean),
-        status:   f.properties.status ?? 'ativo',
-        obs:      f.properties.obs ?? '',
+        email: f.properties.email ?? '',
+        foto: f.properties.foto ?? '',
+        tipos: (f.properties.tipos ?? '').split(',').filter(Boolean),
+        status: f.properties.status ?? 'ativo',
+        obs: f.properties.obs ?? '',
         criadoEm: f.properties.criadoEm ?? new Date().toISOString(),
       }));
       _save(lista);
       return lista;
     },
-
-    /**
-     * Estatísticas rápidas.
-     * @returns {Object}
-     */
     estatisticas() {
       const lista = _load();
-      const ativos    = lista.filter(e => e.status === 'ativo').length;
-      const inativos  = lista.filter(e => e.status === 'inativo').length;
-      const manut     = lista.filter(e => e.status === 'manutencao').length;
-      const bairros   = new Set(lista.map(e => e.bairro)).size;
+      const ativos = lista.filter(e => e.status === 'ativo').length;
+      const inativos = lista.filter(e => e.status === 'inativo').length;
+      const manut = lista.filter(e => e.status === 'manutencao').length;
+      const bairros = new Set(lista.map(e => e.bairro)).size;
       return { total: lista.length, ativos, inativos, manutencao: manut, bairros };
     },
-
   };
 })();
