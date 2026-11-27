@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rotas de Coleta Comum — Ecopontos Marabá/PA</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="style.css" rel="stylesheet">
+
+    <style>
+        html, body {
+            height: auto !important;
+            overflow: auto !important;
+            background: #f4f7f4;
+        }
+        .hero-coleta {
+            background: linear-gradient(135deg, #1a5c30 0%, #2d7d46 100%);
+            color: #fff;
+            padding: 2.2rem 1rem;
+        }
+        .rota-card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, .06);
+            height: 100%;
+            transition: transform .15s ease;
+            border-left: 5px solid #2d7d46;
+        }
+        .rota-card.noturna {
+            border-left-color: #1f3a60;
+        }
+        .rota-card:hover {
+            transform: translateY(-2px);
+        }
+        .badge-diurna {
+            background-color: #e67e22;
+            color: #fff;
+        }
+        .badge-noturna {
+            background-color: #1f3a60;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-green py-2 px-3" style="background:#1a5c30;">
+        <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="index.html">
+            <i class="fas fa-recycle"></i>
+            <span>Ecopontos Marabá</span>
+        </a>
+        <div class="ms-auto d-flex flex-wrap gap-2">
+            <a href="index.html" class="btn btn-light btn-sm fw-semibold text-success">
+                <i class="fas fa-map-marked-alt me-1"></i>Mapa
+            </a>
+            <a href="educacao.html" class="btn btn-light btn-sm fw-semibold text-success">
+                <i class="fas fa-seedling me-1"></i>Educação Ambiental
+            </a>
+            <a href="coleta.html" class="btn btn-outline-light btn-sm active">
+                <i class="fas fa-truck me-1"></i>Coleta Comum
+            </a>
+            <a href="admin.html" class="btn btn-warning btn-sm fw-semibold">
+                <i class="fas fa-lock me-1"></i>Admin
+            </a>
+        </div>
+    </nav>
+
+    <!-- CABEÇALHO -->
+    <header class="hero-coleta text-center">
+        <div class="container" style="max-width: 850px;">
+            <span class="badge bg-light text-success mb-2 px-3 py-2 fw-bold">
+                <i class="fas fa-truck-loading me-1"></i>SSAM — Serviço de Saneamento Ambiental de Marabá
+            </span>
+            <h1 class="fw-bold mb-2">Rotas da Coleta de Resíduos Sólidos</h1>
+            <p class="mb-0 opacity-90">
+                Consulte o turno, a rota e a faixa de horário prevista para a coleta domiciliar comum no seu bairro, folha ou vila.
+            </p>
+        </div>
+    </header>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="container py-4" style="max-width: 1080px;">
+
+        <!-- AVISOS OFICIAIS DA ESCALA -->
+        <div class="alert alert-warning border-0 shadow-sm d-flex align-items-start gap-3 mb-4" role="alert">
+            <i class="fas fa-exclamation-triangle fs-4 text-warning mt-1"></i>
+            <div class="small">
+                <strong>Avisos importantes sobre a escala (SSAM Marabá):</strong>
+                <ul class="mb-0 mt-1 ps-3">
+                    <li>Podem ocorrer irregularidades ou atrasos pontuais ao longo da semana devido a imprevistos no percurso (como pneu furado ou caminhão coletor atolado).</li>
+                    <li>A escala está sujeita a alterações periódicas conforme atualização operacional do órgão responsável.</li>
+                    <li><strong>Atenção:</strong> esta consulta refere-se ao <strong>lixo domiciliar comum</strong>. Para recicláveis secos, pilhas, baterias e eletroeletrônicos, utilize os pontos do <a href="index.html" class="fw-bold text-dark">Mapa de Ecopontos</a>.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- PAINEL DE BUSCA E FILTROS -->
+        <div class="card border-0 shadow-sm p-3 p-md-4 mb-4">
+            <div class="row g-3 align-items-end">
+                <div class="col-md-5">
+                    <label for="buscaSetor" class="form-label fw-bold text-success small mb-1">
+                        <i class="fas fa-search me-1"></i>Buscar bairro, folha, vila ou trecho
+                    </label>
+                    <input type="text" id="buscaSetor" class="form-control" placeholder="Ex.: Folha 12, Cidade Nova, Belo Horizonte, Morada Nova...">
+                </div>
+
+                <div class="col-md-3">
+                    <label for="filtroTurno" class="form-label fw-bold text-success small mb-1">
+                        <i class="fas fa-clock me-1"></i>Turno
+                    </label>
+                    <select id="filtroTurno" class="form-select">
+                        <option value="todos">Todos os turnos</option>
+                        <option value="Diurna">Coleta Diurna</option>
+                        <option value="Noturna">Coleta Noturna</option>
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <label for="filtroDia" class="form-label fw-bold text-success small mb-1">
+                        <i class="fas fa-calendar-day me-1"></i>Dia da semana
+                    </label>
+                    <select id="filtroDia" class="form-select">
+                        <option value="todos">Todos os dias</option>
+                        <option value="Segunda-feira">Segunda-feira</option>
+                        <option value="Terça-feira">Terça-feira</option>
+                        <option value="Quarta-feira">Quarta-feira</option>
+                        <option value="Quinta-feira">Quinta-feira</option>
+                        <option value="Sexta-feira">Sexta-feira</option>
+                        <option value="Sábado">Sábado</option>
+                    </select>
+                </div>
+
+                <div class="col-md-2 d-grid">
+                    <button type="button" id="btnLimparFiltros" class="btn btn-outline-secondary">
+                        <i class="fas fa-eraser me-1"></i>Limpar
+                    </button>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top small text-muted">
+                <span id="contadorResultados">Carregando rotas...</span>
+                <span><i class="fas fa-info-circle me-1"></i>Coloque os resíduos próximo ao horário de início</span>
+            </div>
+        </div>
+
+        <!-- LISTA DE RESULTADOS -->
+        <div class="row g-3 mb-5" id="listaRotas"></div>
+
+        <!-- CHAMADA PARA O MAPA DE ECOPONTOS -->
+        <div class="card border-0 shadow-sm bg-white p-4 text-center">
+            <h5 class="fw-bold text-success mb-2">Tem material reciclável, eletrônico ou pilhas para descartar?</h5>
+            <p class="text-muted small mb-3">Não misture com o lixo comum. Encontre no mapa a Ecoilha ou PEV mais próximo.</p>
+            <div>
+                <a href="index.html" class="btn btn-success fw-bold px-4">
+                    <i class="fas fa-map-marker-alt me-2"></i>Ver Ecopontos no Mapa
+                </a>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="text-center text-muted small py-4">
+        Ecopontos Marabá/PA • Consulta de Rotas de Coleta de Resíduos Sólidos (SSAM)
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const ROTAS_COLETA = [
+            // COLETA DIURNA
+            { turno: "Diurna", rota: "1ª Rota", setor: "Morada Nova", inicio: "07h40", termino: "10h30", dias: "Segunda a Sábado", obs: "" },
+            { turno: "Diurna", rota: "1ª Rota", setor: "Jardim do Éden", inicio: "13h30", termino: "14h00", dias: "Segunda a Sábado", obs: "" },
+            { turno: "Diurna", rota: "1ª Rota", setor: "Km 11", inicio: "14h10", termino: "14h40", dias: "Segunda a Sábado", obs: "" },
+            { turno: "Diurna", rota: "1ª Rota", setor: "Residencial Tiradentes", inicio: "15h00", termino: "16h00", dias: "Segunda a Sábado", obs: "" },
+
+            { turno: "Diurna", rota: "2ª Rota", setor: "Km 01", inicio: "07h30", termino: "09h50", dias: "Segunda a Sábado", obs: "" },
+            { turno: "Diurna", rota: "2ª Rota", setor: "Km 02", inicio: "10h00", termino: "10h50", dias: "Segunda a Sábado", obs: "" },
+            { turno: "Diurna", rota: "2ª Rota", setor: "Km 03", inicio: "13h00", termino: "14h50", dias: "Segunda a Sábado", obs: "" },
+            { turno: "Diurna", rota: "2ª Rota", setor: "Francolândia", inicio: "15h00", termino: "16h00", dias: "Segunda a Sábado", obs: "" },
+            { turno: "Diurna", rota: "2ª Rota", setor: "Residencial Paris", inicio: "16h10", termino: "16h30", dias: "Segunda a Sábado", obs: "" },
+
+            { turno: "Diurna", rota: "3ª Rota", setor: "Novo Progresso 1", inicio: "07h30", termino: "09h30", dias: "Segunda a Sábado", obs: "" },
+            { turno: "Diurna", rota: "3ª Rota", setor: "Novo Progresso 2", inicio: "09h30", termino: "09h50", dias: "Segunda a Sábado", obs: "" },
+            { turno: "Diurna", rota: "3ª Rota", setor: "Residencial Tocantins", inicio: "10h00", termino: "10h50 / 14h30", dias: "Segunda a Sábado", obs: "Pausa e reinício às 13h00" },
+            { turno: "Diurna", rota: "3ª Rota", setor: "São Félix Pioneiro", inicio: "14h35", termino: "16h30", dias: "Segunda a Sábado", obs: "" },
+
+            { turno: "Diurna", rota: "4ª Rota", setor: "Folha 33", inicio: "07h20", termino: "09h00", dias: "Segunda a Sábado", obs: "" },
+            { turno: "Diurna", rota: "4ª Rota", setor: "Folha 35", inicio: "09h05", termino: "11h00", dias: "Segunda a Sábado", obs: "" },
+            { turno: "Diurna", rota: "4ª Rota", setor: "Folha 34", inicio: "13h00", termino: "13h30", dias: "Segunda a Sábado", obs: "" },
+            { turno: "Diurna", rota: "4ª Rota", setor: "Folha 30", inicio: "14h05", termino: "14h45", dias: "Segunda a Sábado", obs: "" },
+            { turno: "Diurna", rota: "4ª Rota", setor: "Vila Militar Castelo Branco", inicio: "16h05", termino: "17h00", dias: "Segunda a Sábado", obs: "" },
+
+            { turno: "Diurna", rota: "5ª Rota", setor: "Folha 23", inicio: "07h30", termino: "08h05", dias: "Segunda a Sábado", obs: "" },
+            { turno: "Diurna", rota: "5ª Rota", setor: "Folha 14", inicio: "08h10", termino: "08h40", dias: "Segunda a Sábado", obs: "" },
+            { turno: "Diurna", rota: "5ª Rota", setor: "Folha 13", inicio: "08h45", termino: "09h00", dias: "Segunda a Sábado", obs: "" },
+            { turno: "Diurna", rota: "5ª Rota", setor: "Folha 12", inicio: "09h05", termino: "10h50", dias: "Segunda a Sábado", obs: "" },
+            { turno: "Diurna", rota: "5ª Rota", setor: "Folha 18", inicio: "13h00", termino: "13h30", dias: "Segunda a Sábado", obs: "" },
+            { turno: "Diurna", rota: "5ª Rota", setor: "Folha 10", inicio: "13h35", termino: "14h10", dias: "Segunda a Sábado", obs: "" },
+            { turno: "Diurna", rota: "5ª Rota", setor: "Folha 11", inicio: "14h15", termino: "15h30", dias: "Segunda a Sábado", obs: "" },
+
+            { turno: "Diurna", rota: "6ª Rota", setor: "Folha 06", inicio: "07h30", termino: "08h40", dias: "Segunda a Sábado", obs: "" },
+            { turno: "Diurna", rota: "6ª Rota", setor: "Folha 07", inicio: "08h45", termino: "09h20", dias: "Segunda a Sábado", obs: "" },
+            { turno: "Diurna", rota: "6ª Rota", setor: "Folha 05", inicio: "09h25", termino: "10h05", dias: "Segunda a Sábado", obs: "" },
+            { turno: "Diurna", rota: "6ª Rota", setor: "Folha 09", inicio: "10h10", termino: "10h30", dias: "Segunda a Sábado", obs: "" },
+            { turno: "Diurna", rota: "6ª Rota", setor: "Folha 19", inicio: "10h35", termino: "10h45", dias: "Segunda a Sábado", obs: "" },
+            { turno: "Diurna", rota: "6ª Rota", setor: "Folha 08", inicio: "13h00", termino: "14h00", dias: "Segunda a Sábado", obs: "" },
+            { turno: "Diurna", rota: "6ª Rota", setor: "Folha 01", inicio: "14h05", termino: "15h00", dias: "Segunda a Sábado", obs: "" },
+
+            { turno: "Diurna", rota: "7ª Rota", setor: "Bairro Nossa Senhora Aparecida (Coca-Cola)", inicio: "07h20", termino: "10h50", dias: "Segunda a Sábado", obs: "" },
+            { turno: "Diurna", rota: "7ª Rota", setor: "Bairro Araguaia", inicio: "13h00", termino: "16h00", dias: "Segunda a Sábado", obs: "" },
+            { turno: "Diurna", rota: "7ª Rota", setor: "BR 222", inicio: "16h10", termino: "16h30", dias: "Segunda a Sábado", obs: "" },
+
+            { turno: "Diurna", rota: "8ª Rota", setor: "Transmangueira", inicio: "07h30", termino: "07h40", dias: "Segunda a Sábado", obs: "" },
+            { turno: "Diurna", rota: "8ª Rota", setor: "Folha 23", inicio: "07h45", termino: "08h20", dias: "Segunda a Sábado", obs: "" },
+            { turno: "Diurna", rota: "8ª Rota", setor: "Vila Militar Costa e Silva", inicio: "08h25", termino: "08h45", dias: "Segunda a Sábado", obs: "" },
+            { turno: "Diurna", rota: "8ª Rota", setor: "Vila Militar Presidente Médici", inicio: "08h50", termino: "09h10", dias: "Segunda a Sábado", obs: "" },
+            { turno: "Diurna", rota: "8ª Rota", setor: "23ª Brigada", inicio: "09h15", termino: "09h40", dias: "Segunda a Sábado", obs: "" },
+            { turno: "Diurna", rota: "8ª Rota", setor: "Folha 29", inicio: "09h45", termino: "10h35", dias: "Segunda a Sábado", obs: "" },
+            { turno: "Diurna", rota: "8ª Rota", setor: "Km 07", inicio: "13h00", termino: "15h00", dias: "Segunda a Sábado", obs: "" },
+
+            { turno: "Diurna", rota: "9ª Rota", setor: "Folha 05", inicio: "07h30", termino: "08h00", dias: "Segunda a Sábado", obs: "" },
+            { turno: "Diurna", rota: "9ª Rota", setor: "Folha 09", inicio: "08h05", termino: "08h30", dias: "Segunda a Sábado", obs: "" },
+            { turno: "Diurna", rota: "9ª Rota", setor: "Folha 19", inicio: "08h35", termino: "09h00", dias: "Segunda a Sábado",
