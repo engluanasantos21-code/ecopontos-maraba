@@ -272,7 +272,7 @@ const DADOS_DEMO = [
       "eletronico"
     ],
     "status": "ativo",
-    "obs": "No momento está desativado mas em breve retornará a receber. Coleta domiciliar: Não. Fonte: https://greeneletron.org.br/onde-descartar/lista-pev/?cidade=Marab%C3%A1&estado=PA",
+    "obs": "EM CASO DE DÚVIDA OU PARA DESCARTE DE PRODUTOS DE MAIOR PORTE COMO GELADEIRAS E FOGÕES, POR FAVOR ENTRAR EM CONTATO VIA E-MAIL: COLETA@ABREE.ORG.BR OU VIA WHATSAPP +55 11 97811-6126 E +55 11 98991-4558. Coleta domiciliar: Não. Fonte: https://greeneletron.org.br/onde-descartar/lista-pev/?cidade=Marab%C3%A1&estado=PA" Fonte: https://greeneletron.org.br/onde-descartar/lista-pev/?cidade=Marab%C3%A1&estado=PA",
     "criadoEm": "2026-01-01T00:00:00.000Z"
   },
   {
@@ -290,7 +290,7 @@ const DADOS_DEMO = [
       "pilhas"
     ],
     "status": "inativo",
-    "obs": "EM CASO DE DÚVIDA OU PARA DESCARTE DE PRODUTOS DE MAIOR PORTE COMO GELADEIRAS E FOGÕES, POR FAVOR ENTRAR EM CONTATO VIA E-MAIL: COLETA@ABREE.ORG.BR OU VIA WHATSAPP +55 11 97811-6126 E +55 11 98991-4558. Coleta domiciliar: Não. Fonte: https://greeneletron.org.br/onde-descartar/lista-pev/?cidade=Marab%C3%A1&estado=PA",
+    "obs": "No momento está desativado mas em breve retornará a receber. Coleta domiciliar: Não. EM CASO DE DÚVIDA OU PARA DESCARTE DE PRODUTOS DE MAIOR PORTE COMO GELADEIRAS E FOGÕES, POR FAVOR ENTRAR EM CONTATO VIA E-MAIL: COLETA@ABREE.ORG.BR OU VIA WHATSAPP +55 11 97811-6126 E +55 11 98991-4558. Coleta domiciliar: Não. Fonte: https://greeneletron.org.br/onde-descartar/lista-pev/?cidade=Marab%C3%A1&estado=PA",
     "criadoEm": "2026-01-01T00:00:00.000Z"
   },
   {
@@ -342,7 +342,10 @@ const DADOS_DEMO = [
     "foto": "",
     "tipos": [
       "eletronico",
-      "pilhas"
+      "Carregadores",
+      "celulares",
+      "baterias de celular",
+      "celulares - acessórios"
     ],
     "status": "ativo",
     "obs": "Recomendamos contato prévio: confirme condições e horários de coleta antes de ir. Coleta domiciliar: Não. Fonte: https://www.ecycle.com.br/posto/posto-de-entrega-voluntaria/pa/vivo--loja-maraba/16334",
@@ -361,7 +364,8 @@ const DADOS_DEMO = [
     "foto": "",
     "tipos": [
       "eletronico",
-      "pilhas"
+      "Baterias (carro e Moto)",
+       "Nobreak"
     ],
     "status": "ativo",
     "obs": "Coleta domiciliar: Não.",
