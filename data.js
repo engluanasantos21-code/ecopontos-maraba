@@ -272,7 +272,7 @@ const DADOS_DEMO = [
       "eletronico"
     ],
     "status": "ativo",
-    "obs": "EM CASO DE DÚVIDA OU PARA DESCARTE DE PRODUTOS DE MAIOR PORTE COMO GELADEIRAS E FOGÕES, POR FAVOR ENTRAR EM CONTATO VIA E-MAIL: COLETA@ABREE.ORG.BR OU VIA WHATSAPP +55 11 97811-6126 E +55 11 98991-4558. Coleta domiciliar: Não. Fonte: https://greeneletron.org.br/onde-descartar/lista-pev/?cidade=Marab%C3%A1&estado=PA" Fonte: https://greeneletron.org.br/onde-descartar/lista-pev/?cidade=Marab%C3%A1&estado=PA",
+    "obs": "EM CASO DE DÚVIDA OU PARA DESCARTE DE PRODUTOS DE MAIOR PORTE COMO GELADEIRAS E FOGÕES, POR FAVOR ENTRAR EM CONTATO VIA E-MAIL: COLETA@ABREE.ORG.BR OU VIA WHATSAPP +55 11 97811-6126 E +55 11 98991-4558. Coleta domiciliar: Não. Fonte: https://greeneletron.org.br/onde-descartar/lista-pev/?cidade=Marab%C3%A1&estado=PA",
     "criadoEm": "2026-01-01T00:00:00.000Z"
   },
   {
